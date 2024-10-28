@@ -4,14 +4,13 @@ from bookshelf.models import Book
 # Register your models here.
 
 class BookAdmin(admin.ModelAdmin):
-    display = ('title', 'author', 'publication_year')
-    items_filter = ('author', 'published_date')
-    search = ('title', 'author')
+    list_display = ('title', 'author', 'publication_year')
+    list_filter = ('author', 'publication_year')
+    search_fields = ('title', 'author')
 
-    def pub_year(self, obj):
+    def publication_year(self, obj):
         return obj.published_date.year
     
-    pub_year.short_description = 'Publication Year'
-    pub_year.admin_order_field = 'published_date'
+    publication_year.short_description = 'Publication Year'
 
 admin.site.register(Book, BookAdmin)
