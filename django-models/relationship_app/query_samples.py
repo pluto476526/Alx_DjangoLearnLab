@@ -25,7 +25,7 @@ def get_books_in_lib(library_name):
 def get_librarian(library_name):
     try:
         library = Library.objects.get(name=library_name)
-        librarian = Librarian.objects.filter(library=library)
+        librarian = Librarian.objects.get(library=library)
         return librarian
 
     except Library.DoesNotExist:
