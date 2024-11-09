@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic.detail import DetailView
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.decorators import user_passes_test, permission_required
 from .models import Book
 from .models import Library
 
@@ -97,6 +97,16 @@ def is_member(user):
 def member_view(request):
     return render(request, 'relationship_app/member_view.html')
 
+@permission_required('app_label.can_add_book', raise_exception=True)
+def add_book(request):
+    return render(request, 'relationship_app/add_book.html')
 
+@permissin_required('app_label.can_change_book', raise_exception=True)
+def edit_book(request):
+    return render(request, 'relationship_app/edit_book.html')
+
+@permission_required('app.label.can_delete_book', raise_exception=True)
+def delete_book(request):
+    return render(request, 'relationship_app/delete_book.html')
 
 
