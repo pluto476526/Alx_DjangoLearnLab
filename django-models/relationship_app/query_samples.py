@@ -11,9 +11,9 @@ def get_books_by_author(author):
 
 
 # Get all books in a specific lib
-def get_books_in_lib(lib_name):
+def get_books_in_lib(library_name):
     try:
-        books = Library.objects.get(name=lib_name)
+        books = Library.objects.get(name=library_name)
         return library.books.all()
 
     except Library.DoesNotExist:
@@ -21,9 +21,9 @@ def get_books_in_lib(lib_name):
 
 
 # Get librarian
-def get_librarian(lib_name):
+def get_librarian(library_name):
     try:
-        librarian = Library.objects.get(name=lib_name)
+        librarian = Library.objects.get(name=library_name)
         return Library.librarian
 
     except Library.DoesNotExist:
