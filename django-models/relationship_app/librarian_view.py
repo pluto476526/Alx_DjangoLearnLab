@@ -6,5 +6,5 @@ def is_librarian(user):
     return user.groups.filter(name='Librarian').exists()
 
 @user_passes_test(is_librarian)
-def Librarian(request):
+def librarian_view(request):
     return render(request, 'librarian_view.html')
