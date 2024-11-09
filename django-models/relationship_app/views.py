@@ -12,7 +12,7 @@ def book_list(request):
 
 class LibraryDetails(DetailView):
     model = Library
-    template_name = 'library_books.html'
+    template_name = 'relationship_app/library_detailss.html'
     context_name = 'library'
 
     def get_data(self):
