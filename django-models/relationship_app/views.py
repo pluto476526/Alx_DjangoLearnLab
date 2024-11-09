@@ -63,9 +63,21 @@ def sign_in(request):
             messages.error(request, 'Invalid username or password')
 
     context = {'sign_in_form': login_form}
-    return render(request, 'public_sign_in.html', context)
+    return render(request, 'relationship_app.html', context)
 
 
 def sign_out(request):
     logout(request)
-    return redirect('home')
+    return redirect('/')
+
+
+
+
+
+
+
+
+
+
+
+
