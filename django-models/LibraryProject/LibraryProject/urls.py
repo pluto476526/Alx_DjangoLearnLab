@@ -19,4 +19,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('books_list/', books_list, name='books_list')
+    path('library/<int:pk>/', LibraryDetails.as_view, name='library_details')
 ]
