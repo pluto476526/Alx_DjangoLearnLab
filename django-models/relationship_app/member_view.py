@@ -5,5 +5,5 @@ def is_member(user):
     return user.groups.filter(name='Member').exists()
 
 @user_passes_test(is_member)
-def member_view(request):
+def Member(request):
     return render(request, 'member_view.html')
