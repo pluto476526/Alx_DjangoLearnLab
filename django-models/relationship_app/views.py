@@ -25,7 +25,7 @@ class LibraryDetails(DetailView):
 
 
 def register(request):
-    register_form = UserCreatiomForm()
+    register_form = UserCreationForm()
 
     if request.method == "POST":
         register_form = UserCreationForm(request.POST)
