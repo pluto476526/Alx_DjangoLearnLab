@@ -1,3 +1,9 @@
+Features
+
+This application manages books with specific access control based on user roles and permissions. Users can perform actions like viewing, creating, editing, or deleting books based on the permissions assigned to their groups.
+
+
+
 # Permissions
 
 Custom permissions included in the Book model:
@@ -22,19 +28,51 @@ Custom groups
 |    'Admins'               |      can_view,_create,_edit,_delete
 
 
-# Usage
-
-1.  **Creating Groups and Permissions:**
-    Run 'create_groups' function to set them up:
-	```python3
-	from groups import create_groups
-	create_groups()
 
 
-# Creating Users and Superusers
-	 python3 manage.py shell   # Start the Django shell
+1.  **Create Groups and Assign Permissions**
+	The application uses predefined user groups (Viewers, Editors, and Admins) with different permissions for accessing books.
 
-	 >>> from bookshelf.models import CustomUser # Import module
+	To create the groups and assign the appropriate permissions, run the following script:
 
-     >>> user = CustomUser.objects.create_user(username='Trinity985', password='12341234', date_of_birth='2000-02-01') # Create regular user
-     >>> superuser = CustomUser.objects.create_superuser(username='Pluto', password='12341234') # Create super user
+	python manage.py shell
+	>>> from bookshelf.groups import create_groups
+	>>> create_groups()
+
+
+
+2.  **Create Test Users**
+	To create test users and assign them to the respective groups, run the following:
+
+	python manage.py shell
+	>>> from bookshelf.groups import create_test_users
+	>>> create_test_users()
+
+	This will create three test users:
+
+	viewer (assigned to Viewers group)
+	editor (assigned to Editors group)
+	admin (assigned to Admins group)
+
+
+
+3.  **Permissions in Views**
+	Permissions are applied using Django's @permission_required decorator. Each view is decorated to check if the user has the required permission before allowing access.
+
+	Example in views.py:
+
+	@permission_required('bookshelf.can_create', raise_exception=True)
+	def create_book(request):
+    	context = {}
+    	return render(request, context)
+
+	@permission_required('bookshelf.can_create'): Ensures that only users with the can_create permission can access the create_book view.
+	raise_exception=True: Automatically raises a 403 Forbidden error if the user doesn't have the required permission.
+
+
+
+4.  **Custom User Model**
+	The project uses a custom user model (CustomUser) that extends AbstractUser and includes additional fields:
+
+	date_of_birth: User's date of birth.
+	profile_photo: User's profile photo.
