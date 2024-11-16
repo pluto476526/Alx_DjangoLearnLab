@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import Book, CustomUser
+from .forms import CustomUserCreationForm, CustomUserChangeForm
 
 # Register your models here.
 
@@ -26,14 +27,17 @@ class CustomUserAdmin(UserAdmin):
     search_fields = ('username',)
 
     fieldsets = (
-        (None, {'fields': ('username', 'password')}),
-        ('Personal Info', {'fields': ('date_of_birth', 'profile_photo')}),
-        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser')}),
-        ('Special Dates', {'fields': 'last_login'})
+        (None, {'fields': ('username', 'password',)}),
+        ('Personal Info', {'fields': ('date_of_birth', 'profile_photo',)}),
+        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser',)}),
+        ('Special Dates', {'fields': ('last_login',)})
     )
 
+try:
+    admin.site.unregister(CustomUser)
 
-admin.site.unregister(CustomUser)
+except admin.sites.NotRegistered:
+    pass
 
 admin.site.register(CustomUser, CustomUserAdmin)
 
