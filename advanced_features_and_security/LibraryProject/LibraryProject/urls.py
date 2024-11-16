@@ -17,10 +17,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from relationship_app import views
+from bookshelf import views as v
 from relationship_app.views import LibraryDetails
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('books_list/', views.books_list, name='books_list'),
-    path('library/<int:pk>/', LibraryDetails.as_view, name='library_details'),
+    path('library/<int:pk>/', LibraryDetails.as_view(), name='library_details'),
+    path('edit_book/<int:pk>/', v.edit_book, name='edit_book'),
+    path('create_book/', v.create_book, name='create_book'),
+    path('all_books/', v.book_list, name='all_books'),
+    path('delete_book/<int:pk>', v.delete_book, name='delete_book'),
 ]
