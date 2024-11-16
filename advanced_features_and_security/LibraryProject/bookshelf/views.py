@@ -11,7 +11,7 @@ def create_book():
 
 
 @permission_required('bookshelf.can_view', raise_exception=True)
-def view_book():
+def book_list():
     context = {}
     return render(request, context)
 
