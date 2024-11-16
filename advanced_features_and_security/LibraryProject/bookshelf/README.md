@@ -1,4 +1,4 @@
-Features
+# Features
 
 This application manages books with specific access control based on user roles and permissions. Users can perform actions like viewing, creating, editing, or deleting books based on the permissions assigned to their groups.
 
