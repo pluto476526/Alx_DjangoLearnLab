@@ -28,4 +28,5 @@ urlpatterns = [
     path('create_book/', v.create_book, name='create_book'),
     path('all_books/', v.book_list, name='all_books'),
     path('delete_book/<int:pk>', v.delete_book, name='delete_book'),
+    path('form_example/', v.form_example, name='form_example'),
 ]

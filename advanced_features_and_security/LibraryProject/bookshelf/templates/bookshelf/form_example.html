@@ -3,14 +3,13 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Create Page</title>
+	<title>Form Exaple</title>
 </head>
 <body>
-	<h3>Add New Book</h3>
 	<form method="post">
 		{% csrf_token %}
 		{{ form.as_p }}
-		<button type=submit>Create Book</button>
+		<button type=submit>Add book</button>
 	</form>
 	<a href="{% url 'all_books' %}">Home</a>
 </body>

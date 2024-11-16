@@ -1,7 +1,7 @@
 # views.py
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import permission_required
-from bookshelf.forms import BookForm
+from bookshelf.forms import ExampleForm, BookForm
 from bookshelf.models import Book
 
 
@@ -55,3 +55,28 @@ def delete_book(request, pk):
 
     context = {'book': book}
     return render(request, 'bookshelf/delete_book.html', context)
+
+
+
+@permission_required('bookshelf.can_edit', raise_exception=True)
+def form_example(request):
+    form = ExampleForm()
+
+    if request.method == 'POST':
+        form = ExampleForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect('all_books')
+
+    context = {'form': form}
+    return render(request, 'bookshelf/form_example.html', context)
+
+
+
+
+
+
+
+
+
