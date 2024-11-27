@@ -24,7 +24,7 @@ class BookSerializer(serializers.ModelSerializer):
 
 class AuthorSerializer(serializers.ModelSerializer):
     # Nestes serializer to retrieve books for current author
-    books = BookSerializer(many=True)
+    books = BookSerializer(many=True, read_only=True)
 
     class Meta:
         model = Author
