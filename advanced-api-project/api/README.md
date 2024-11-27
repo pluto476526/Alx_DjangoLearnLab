@@ -26,3 +26,12 @@
 - **URL**: `/books/<id>/delete/`
 - **Method**: `DELETE`
 - **Perms**: Authenticated users
+
+
+# Features
+
+## Filtering, Searching, and Ordering
+
+### Fields
+-- `title`, `author`, or `publication_year`.
+
