@@ -6,6 +6,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from blog.forms import UserRegistrationForm, UserUpdateForm, BlogPostsForm, CommentForm
 from blog.models import Post, Comment
@@ -92,6 +93,18 @@ class BlogPostsView(ListView):
     template_name = 'blog/posts.html'
     context_object_name = 'posts'
 
+    def get_queryset(self):
+        queryset = Post.objects.all()
+        query = self.request.GET.get('q', '')
+
+        if query:
+            queryset = queryset.filter(
+                Q(title__icontains=query) |
+                Q(content__icontains=query) |
+                Q(tags__name__icontains=query)
+            ).distinct()
+
+        return queryset
 
 class BlogPostsDetailsView(DetailView):
     model = Post

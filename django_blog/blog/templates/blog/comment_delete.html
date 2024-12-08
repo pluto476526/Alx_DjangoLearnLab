@@ -1,14 +1,11 @@
 <!-- comment_delete -->
-{% extends 'blog/base.html' %}
-
-{% block content %}
+{% extends 'blog/base.html' %} {% block content %}
 <h1>Are you sure you want to delete "{{ object.content }}"?</h1>
 
 <form method="post">
-    {% csrf_token %}
-    <button type="submit">Confirm Delete</button>
+  {% csrf_token %}
+  <button type="submit">Confirm Delete</button>
 </form>
 
 <a href="{% url 'blogpost-detail' object.pk %}">Cancel</a>
 {% endblock %}
-

@@ -2,12 +2,23 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
+<!-- Search Form -->
+<form method="get" action="{% url 'posts' %}">
+    <input type="text" name="q" placeholder="Search posts..." value="{{ request.GET.q }}">
+    <button type="submit">Search</button>
+</form>
+
 <h1>Blog Posts</h1>
 <a href="{% url 'blogpost-create' %}">Create New Post</a>
 <ul>
     {% for post in posts %}
         <li>
             <a href="{% url 'blogpost-detail' post.pk %}">{{ post.title|title }}</a> by <strong> {{ post.author|title }} </strong> published on {{ post.published_date }}
+            <p><strong>Tags:</strong> 
+            {% for tag in post.tags.all %}
+                <span>{{ tag.name }}</span>{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        </p>
             <a href="{% url 'blogpost-update' post.pk %}">Edit</a>
             <a href="{% url 'blogpost-delete' post.pk %}">Delete</a>
         </li>
