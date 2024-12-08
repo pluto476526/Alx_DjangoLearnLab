@@ -1,9 +1,14 @@
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.urls import reverse_lazy
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
-from blog.forms import UserRegistrationForm, UserUpdateForm
+from blog.forms import UserRegistrationForm, UserUpdateForm, BlogPostsForm
+from blog.models import Post
+
 
 
 def index_view(request):
@@ -56,11 +61,6 @@ def signin_view(request):
     return render(request, 'blog/login.html', context)
 
 
-def posts_view(request):
-    context = {}
-    return render(request, 'blog/posts.html', context)
-
-
 def profile_view(request):
     user = get_object_or_404(User, username=request.user)
     update_form = UserUpdateForm(instance=user)
@@ -84,3 +84,50 @@ def signout_view(request):
 
     context = {}
     return render(request, 'blog/logout.html', context)
+
+
+class BlogPostsView(ListView):
+    model = Post
+    template_name = 'blog/posts.html'
+    context_object_name = 'posts'
+
+
+class BlogPostsDetailsView(DetailView):
+    model = Post
+    template_name = 'blog/posts_details.html'
+
+
+class BlogPostsCreateView(LoginRequiredMixin, CreateView):
+    model = Post
+    template_name = 'blog/posts_create.html'
+    fields = ['title', 'content']
+    success_url = reverse_lazy('posts')
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+
+class BlogPostsUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Post
+    form_class = BlogPostsForm
+    template_name = 'blog/posts_create.html'
+    success_url = reverse_lazy('posts')
+
+    def test_func(self):
+        post = self.get_object()
+        return self.request.user == post.author
+
+
+class BlogPostsDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Post
+    template_name = 'blog/posts_delete.html'
+    success_url = reverse_lazy('posts')
+
+    def test_func(self):
+        post = self.get_object()
+        return self.request.user == post.author
+
+
+
+

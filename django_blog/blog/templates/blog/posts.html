@@ -1,0 +1,19 @@
+<!-- blogpost_list -->
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<h1>Blog Posts</h1>
+<a href="{% url 'blogpost-create' %}">Create New Post</a>
+<ul>
+    {% for post in posts %}
+        <li>
+            <a href="{% url 'blogpost-detail' post.pk %}">{{ post.title }}</a> by <strong> {{ post.author }} </strong> published on {{ post.published_date }}
+            <a href="{% url 'blogpost-update' post.pk %}">Edit</a>
+            <a href="{% url 'blogpost-delete' post.pk %}">Delete</a>
+        </li>
+    {% empty %}
+        <li>No blog posts available.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
+
