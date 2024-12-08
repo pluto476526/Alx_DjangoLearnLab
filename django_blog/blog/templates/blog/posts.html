@@ -7,7 +7,7 @@
 <ul>
     {% for post in posts %}
         <li>
-            <a href="{% url 'blogpost-detail' post.pk %}">{{ post.title }}</a> by <strong> {{ post.author }} </strong> published on {{ post.published_date }}
+            <a href="{% url 'blogpost-detail' post.pk %}">{{ post.title|title }}</a> by <strong> {{ post.author|title }} </strong> published on {{ post.published_date }}
             <a href="{% url 'blogpost-update' post.pk %}">Edit</a>
             <a href="{% url 'blogpost-delete' post.pk %}">Delete</a>
         </li>

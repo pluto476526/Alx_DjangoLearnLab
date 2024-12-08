@@ -1,13 +1,33 @@
 <!-- blogpost_details -->
 {% extends 'blog/base.html' %}
 {% block content %}
-<h1>{{ post.title }}</h1>
-<p>{{ post.content }}</p>
-<p><strong>Author:</strong> {{ post.author }}</p>
+<h1>{{ post.title|title }}</h1>
+<br>
+<p>{{ post.content|capfirst }}</p>
+<br>
+<p><strong>Author:</strong> {{ post.author|title }}</p>
+<br>
 <p><strong>Created at:</strong> {{ post.published_date }}</p>
-
+<br>
 <a href="{% url 'blogpost-update' post.pk %}">Edit</a>
 <a href="{% url 'blogpost-delete' post.pk %}">Delete</a>
 <a href="{% url 'posts' %}">Back to List</a>
+<br>
+<!-- comments -->
+<h2>Comments</h2>
+<br>
+{% for comment in comments %}
+    <div>
+        <strong>{{ comment.author.username|title }}</strong>: {{ comment.content|capfirst }} <em>{{ comment.created_at|timesince }} ago</em>
+        {% if comment.author == request.user %}
+            <a href="{% url 'edit_comment' comment.pk %}">Edit</a>
+            <a href="{% url 'delete_comment' comment.pk %}">Delete</a>
+        {% endif %}
+    </div>
+{% empty %}
+    <p>No comments yet.</p>
+{% endfor %}
+<br>
+<a href="{% url 'add_comment' post.pk %}">Add a Comment</a>
 {% endblock %}
 

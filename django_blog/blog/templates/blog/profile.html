@@ -5,9 +5,10 @@
 <p>{{ message }}</p>
 {% endfor %}
 {% endif %}
+<br>
 <form method="post">
 	{% csrf_token %}
-    {{ update_form }}
+    {{ update_form.as_p }}
 	<button type="submit">
 		Save Changes
 	</button>

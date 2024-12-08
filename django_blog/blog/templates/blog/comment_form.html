@@ -1,0 +1,9 @@
+<!-- comment_form -->
+<h2>{% if object %}Edit{% else %}Add{% endif %} a Comment</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit</button>
+</form>
+<a href="{{ request.META.HTTP_REFERER }}">Cancel</a>
+

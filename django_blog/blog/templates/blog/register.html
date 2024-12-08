@@ -6,9 +6,10 @@
 <p>{{ message }}</p>
 {% endfor %}
 {% endif %}
+<br>
 <form method="post">
 	{% csrf_token %}
-	{{ register_form|crispy }}
+	{{ register_form.as_p }}
 	<button type="submit">
 		Register
 	</button>
