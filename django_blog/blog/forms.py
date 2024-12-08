@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
 from blog.models import Post, Comment
-from taggit.forms import TagField
+from taggit.forms import TagField, TagWidget
 
 
 class UserRegistrationForm(UserCreationForm):
@@ -20,7 +20,7 @@ class UserUpdateForm(forms.ModelForm):
 
 
 class BlogPostsForm(forms.ModelForm):
-    tags = TagField()
+    tags = TagField(widget=TagWidget())
 
     class Meta:
         model = Post
