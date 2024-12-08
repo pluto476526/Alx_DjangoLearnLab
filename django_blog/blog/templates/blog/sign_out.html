@@ -1,0 +1,16 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+{% if messages %}
+{% for message in messages %}
+<p>{{ message }}</p>
+{% endfor %}
+{% endif %}
+Are you sure you want to log out?
+<form method="post">
+	{% csrf_token %}
+	<button type="submit">
+		Log out
+	</button>
+</form>
+<a href="">Back</a>
+{% endblock %}

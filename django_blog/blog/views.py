@@ -1,3 +1,86 @@
-from django.shortcuts import render
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+from django.contrib import messages
+from django.shortcuts import render, redirect, get_object_or_404
+from blog.forms import UserRegistrationForm, UserUpdateForm
 
-# Create your views here.
+
+def index_view(request):
+    context = {}
+    return render(request, 'blog/base.html', context)
+
+
+def register_view(request):
+    register_form = UserRegistrationForm()
+
+    if request.user.is_authenticated:
+        return redirect('home')
+
+    if request.method == 'POST':
+        register_form = UserRegistrationForm(request.POST)
+
+        if register_form.is_valid():
+            register_form.save()
+            messages.success(request, 'Registration succesful. You can now register.')
+            return redirect('login')
+
+    context = {'register_form': register_form}
+    return render(request, 'blog/register.html', context)
+
+
+def signin_view(request):
+    login_form = AuthenticationForm()
+
+    if request.user.is_authenticated:
+        return redirect('home')
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        try:
+            user = authenticate(request, username=username, password=password)
+
+            if user is None:
+                messages.error(request, 'Invalid credentials')
+
+            else:
+                login(request, user)
+                return redirect('home')
+
+        except Exception as e:
+            messages.error(request, 'An error has occured')
+
+    context = {'login_form': login_form}
+    return render(request, 'blog/sign_in.html', context)
+
+
+def posts_view(request):
+    context = {}
+    return render(request, 'blog/posts.html', context)
+
+
+def profile_view(request):
+    user = get_object_or_404(User, username=request.user)
+    update_form = UserUpdateForm(instance=user)
+
+    if request.method == 'POST':
+        update_form = UserUpdateForm(request.POST, instance=user)
+
+        if update_form.is_valid():
+            update_form.save()
+            messages.success(request, 'Profile details updated')
+            return redirect('profile')
+        
+    context = {'update_form': update_form}
+    return render(request, 'blog/profile.html', context)
+
+
+def signout_view(request):
+    if request.method == 'POST':
+        logout(request)
+        return redirect('login')
+
+    context = {}
+    return render(request, 'blog/sign_out.html', context)
