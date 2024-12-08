@@ -20,7 +20,7 @@ class UserUpdateForm(forms.ModelForm):
 
 
 class BlogPostsForm(forms.ModelForm):
-    tags = TagField(widget=TagWidget())
+    tags = TagField(widgets=TagWidget())
 
     class Meta:
         model = Post
