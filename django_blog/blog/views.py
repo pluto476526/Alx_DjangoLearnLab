@@ -140,7 +140,7 @@ class BlogPostsDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return self.request.user == post.author
 
 
-class CommentsCreateView(LoginRequiredMixin, CreateView):
+class CommentCreateView(LoginRequiredMixin, CreateView):
     model = Comment
     form_class = CommentForm
     template_name = 'blog/comment_form.html'
@@ -156,7 +156,7 @@ class CommentsCreateView(LoginRequiredMixin, CreateView):
         return reverse_lazy('blogpost-detail', kwargs={'pk': self.object.post.id})
 
 
-class CommentsUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Comment
     form_class = CommentForm
     template_name = 'blog/comment_form.html'
@@ -169,7 +169,7 @@ class CommentsUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return reverse_lazy('blogpost-detail', kwargs={'pk': self.object.post.id})
 
 
-class CommentsDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Comment
     template_name = 'blog/comment_delete.html'
 
