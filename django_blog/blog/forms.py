@@ -21,7 +21,10 @@ class UserUpdateForm(forms.ModelForm):
 class BlogPostsForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['title', 'content']
+        fields = ['title', 'content', 'tags']
+        widgets = {
+            'tags': forms.CheckboxSelectMultiple(),
+        }
 
 
 class CommentForm(forms.ModelForm):
