@@ -53,7 +53,7 @@ def signin_view(request):
             messages.error(request, 'An error has occured')
 
     context = {'login_form': login_form}
-    return render(request, 'blog/sign_in.html', context)
+    return render(request, 'blog/login.html', context)
 
 
 def posts_view(request):
@@ -83,4 +83,4 @@ def signout_view(request):
         return redirect('login')
 
     context = {}
-    return render(request, 'blog/sign_out.html', context)
+    return render(request, 'blog/logout.html', context)
