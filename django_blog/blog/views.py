@@ -1,4 +1,5 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from django.contrib.auth.forms import AuthenticationForm
@@ -86,17 +87,20 @@ def signout_view(request):
     return render(request, 'blog/logout.html', context)
 
 
+@login_required(login_url='login')
 class BlogPostsView(ListView):
     model = Post
     template_name = 'blog/posts.html'
     context_object_name = 'posts'
 
 
+@login_required(login_url='login')
 class BlogPostsDetailsView(DetailView):
     model = Post
     template_name = 'blog/post_details.html'
 
 
+@login_required(login_url='login')
 class BlogPostsCreateView(LoginRequiredMixin, CreateView):
     model = Post
     template_name = 'blog/post_create.html'
@@ -108,6 +112,7 @@ class BlogPostsCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
+@login_required(login_url='login')
 class BlogPostsUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
     form_class = BlogPostsForm
@@ -119,6 +124,7 @@ class BlogPostsUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return self.request.user == post.author
 
 
+@login_required(login_url='login')
 class BlogPostsDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
     template_name = 'blog/post_delete.html'
