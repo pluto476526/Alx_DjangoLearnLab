@@ -94,12 +94,12 @@ class BlogPostsView(ListView):
 
 class BlogPostsDetailsView(DetailView):
     model = Post
-    template_name = 'blog/posts_details.html'
+    template_name = 'blog/post_details.html'
 
 
 class BlogPostsCreateView(LoginRequiredMixin, CreateView):
     model = Post
-    template_name = 'blog/posts_create.html'
+    template_name = 'blog/post_create.html'
     fields = ['title', 'content']
     success_url = reverse_lazy('posts')
 
@@ -111,7 +111,7 @@ class BlogPostsCreateView(LoginRequiredMixin, CreateView):
 class BlogPostsUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
     form_class = BlogPostsForm
-    template_name = 'blog/posts_create.html'
+    template_name = 'blog/post_create.html'
     success_url = reverse_lazy('posts')
 
     def test_func(self):
@@ -121,7 +121,7 @@ class BlogPostsUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 class BlogPostsDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
-    template_name = 'blog/posts_delete.html'
+    template_name = 'blog/post_delete.html'
     success_url = reverse_lazy('posts')
 
     def test_func(self):
