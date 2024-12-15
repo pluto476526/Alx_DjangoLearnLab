@@ -1,4 +1,4 @@
-from rest_framework import status, permissions
+from rest_framework import status, permissions, generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.authtoken.views import ObtainAuthToken
@@ -27,28 +27,30 @@ class CustomObtainAuthToken(ObtainAuthToken):
         })
 
 
-class FollowUserView(APIView):
+class FollowUserView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
+    queryset = CustomUser.objects.all()
 
     def post(self, request, user_id):
         try:
-            user_to_follow = CustomUser.objects.get(id=user_id)
+            user_to_follow = self.get_queryset().get(id=user_id)
             if user_to_follow == request.user:
                 return Response({'error': 'You cannot follow yourself'}, status=400)
 
             request.user.following.add(user_to_follow)
-            return Response({'message': 'You are now following {user_to-follow}'}, status=200)
+            return Response({'message': f'You are now following {user_to-follow}'}, status=200)
         except CustomUser.DoesNotExist:
             return Response({'error': 'User not found'}, status=404)
 
 
-class UnFollowUserView(APIView):
+class UnFollowUserView(generics.GenericAPIView):
     permission_clases = [permissions.IsAuthenticated]
+    queryset = CustomUser.Objects.all()
 
     def post(self, request, user_id):
         try:
-            user_to_unfollow = CustomUser.objects.get(id=user_id)
+            user_to_unfollow = self.get_queryset().get(id=user_id)
             request.user.following.remove(user_to_unfollow)
-            return Response({'message': 'You have unfollowed {user_to_unfollow}'}, status=200)
+            return Response({'message': f'You have unfollowed {user_to_unfollow}'}, status=200)
         except CustomUser.DoesNotExist:
             return Response({'error': 'User not found'}, status=404)
