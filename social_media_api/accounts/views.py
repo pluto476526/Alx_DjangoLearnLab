@@ -4,6 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from .serializers import RegisterSerializer
+from .models import CustomUser
 
 
 class RegisterView(APIView):
@@ -45,7 +46,7 @@ class FollowUserView(generics.GenericAPIView):
 
 class UnFollowUserView(generics.GenericAPIView):
     permission_clases = [permissions.IsAuthenticated]
-    queryset = CustomUser.Objects.all()
+    queryset = CustomUser.objects.all()
 
     def post(self, request, user_id):
         try:

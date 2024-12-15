@@ -1,9 +1,9 @@
 from rest_framework import viewsets, permissions
 from rest_framework.views import APIView
-from .models import Post, Comment
+from notifications.models import Notification
+from .models import Post, Comment, Like
 from .serializers import PostSerializer, CommentSerializer
 from .permissions import IsAuthorOrReadOnly
-
 
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -42,3 +42,38 @@ class FeedAPIView(APIView):
         posts = Post.objects.filter(author__in=following_users).order_by('-created_at')
         serializer = PostSerializer(posts, many=True)
         return Response(serializer.data)
+
+
+class LikePostAPIView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, pk):
+        try:
+            post = Post.objects.get(pk=pk)
+            like, created = Like.objects.get_or_create(user=request.user, post=post)
+            if created:
+                Notification.objects.create(
+                    recipient = post.author,
+                    actor = request.user,
+                    verb = 'liked your post',
+                    target = post
+                )
+                return Response({'message': 'Post liked'}, status=200)
+            return Response({'error': 'You already liked this post'}, status=400)
+        except Post.DoesNotExist:
+            return Response({'error': 'Post not found'}, status=404)
+
+
+class UnlikePostAPIView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, pk):
+        try:
+            post = Post.objects.get(pk=pk)
+            like = Like.objects.filter(user=request.user, post=post)
+            if like.exists():
+                like.delete()
+                return Response({'message': 'Post unliked'}, status=200)
+            return Response({'error': 'You have not liked this post'}, status=400)
+        except Post.DoesNotExist:
+            return Response({'error': 'Post not found'}, status=404)
