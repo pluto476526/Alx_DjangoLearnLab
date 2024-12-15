@@ -1,3 +1,5 @@
+# https://trin985.pythonanywhere.com/api/feed/
+
 # Social Media API
 
 This project is a RESTful API for a social media platform, allowing users to register, authenticate, follow/unfollow other users, and access a feed displaying posts from followed users.
