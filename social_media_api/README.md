@@ -115,3 +115,160 @@ curl -X GET http://127.0.0.1:8000/posts/feed/ \
 ]
 ```
 
+
+
+
+
+
+
+
+# Social Media API: Likes and Notifications System
+
+This documentation explains the functionality and endpoints for the likes and notifications systems in the Social Media API. These features enhance user engagement by allowing users to interact with posts and stay updated on activities related to their content and profile.
+
+---
+
+## Features Overview
+
+1. **Like System**:
+   - Enables users to like and unlike posts.
+   - Prevents duplicate likes by the same user.
+
+2. **Notifications System**:
+   - Notifies users when:
+     - They gain a new follower.
+     - Someone likes their post.
+     - Someone comments on their post.
+   - Provides an endpoint to fetch notifications.
+
+---
+
+## Like Functionality
+
+### Endpoints
+
+#### **1. Like a Post**
+
+- **URL**: `/posts/<int:pk>/like/`
+- **Method**: `POST`
+- **Authentication**: Required
+
+**Description**: Allows authenticated users to like a specific post. If the post is already liked, an error is returned.
+
+**Example Request**:
+```bash
+curl -X POST http://127.0.0.1:8000/posts/1/like/ \
+-H "Authorization: Token YOUR_AUTH_TOKEN"
+```
+
+**Response (Success)**:
+```json
+{
+    "message": "Post liked"
+}
+```
+
+**Response (Already Liked)**:
+```json
+{
+    "error": "You already liked this post"
+}
+```
+
+**Response (Post Not Found)**:
+```json
+{
+    "detail": "Not found."
+}
+```
+
+---
+
+#### **2. Unlike a Post**
+
+- **URL**: `/posts/<int:pk>/unlike/`
+- **Method**: `POST`
+- **Authentication**: Required
+
+**Description**: Allows authenticated users to unlike a specific post. If the post is not liked, an error is returned.
+
+**Example Request**:
+```bash
+curl -X POST http://127.0.0.1:8000/posts/1/unlike/ \
+-H "Authorization: Token YOUR_AUTH_TOKEN"
+```
+
+**Response (Success)**:
+```json
+{
+    "message": "Post unliked"
+}
+```
+
+**Response (Not Liked)**:
+```json
+{
+    "error": "You have not liked this post"
+}
+```
+
+**Response (Post Not Found)**:
+```json
+{
+    "detail": "Not found."
+}
+```
+
+---
+
+## Notifications System
+
+### Endpoints
+
+#### **1. Fetch Notifications**
+
+- **URL**: `/notifications/`
+- **Method**: `GET`
+- **Authentication**: Required
+
+**Description**: Retrieves a list of notifications for the authenticated user. Unread notifications are prominently displayed.
+
+**Example Request**:
+```bash
+curl -X GET http://127.0.0.1:8000/notifications/ \
+-H "Authorization: Token YOUR_AUTH_TOKEN"
+```
+
+**Response**:
+```json
+[
+    {
+        "id": 1,
+        "recipient": "john_doe",
+        "actor": "jane_smith",
+        "verb": "liked your post",
+        "target": "Hello, world!",
+        "timestamp": "2024-12-14T12:34:56Z",
+        "unread": true
+    },
+    {
+        "id": 2,
+        "recipient": "john_doe",
+        "actor": "mike_brown",
+        "verb": "followed you",
+        "timestamp": "2024-12-13T15:21:10Z",
+        "unread": false
+    }
+]
+```
+
+**Response Fields**:
+- `id`: Unique identifier for the notification.
+- `recipient`: The user receiving the notification.
+- `actor`: The user performing the action.
+- `verb`: Description of the action.
+- `target`: The object related to the action (e.g., post content).
+- `timestamp`: When the notification was created.
+- `unread`: Indicates if the notification is unread.
+
+
