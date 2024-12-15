@@ -92,8 +92,12 @@ REST_FRAMEWORK = {
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'social_media_api',
+        'USER': 'trinity',
+        'PASSWORD': '12341234',
+        'HOST': '',
+        'PORT': '5432',
     }
 }
 
@@ -151,7 +155,7 @@ SECURE_HSTS_PRELOAD = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
-FILENAME = BASEDIR / 'error.log'
+FILENAME = BASE_DIR / 'error.log'
 
 LOGGING = {
     'version': 1,
